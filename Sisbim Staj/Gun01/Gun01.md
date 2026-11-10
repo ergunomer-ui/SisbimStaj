@@ -3,7 +3,7 @@ Gerekli programları kurdum. Frontend,backend ve veritabanını basitçe anlatan
 
 
 
-## Basit Mimari Akış Şeması
+Basit Mimari Akış Şeması
 
 Uygulamada frontend,backend ve veritabanını anlatan basit bir şemayı aşağıda ekledim
 Frontend: Kullanıcının önüne çıkan görsel arayüz       |
