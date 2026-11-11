@@ -1,9 +1,9 @@
 # Gün 03 CSS ve responsive tasarım
 
-Bugün stajın üçüncü gününde, önceki gün yaptığım düz formu biraz daha geliştirip gerçek bir yönetim paneli (dashboard) ekranına benzetmeye çalıştım. 
+Önceki düz form biraz daha geliştirilip gerçek bir yönetim paneli oluşturuldu
 
-## Bugün Neler Yaptım?
-- Sayfanın genel düzenini oturttum. Sol tarafa sabit bir menü (`sidebar`), sağ tarafa da ana içerik alanını koydum. Bunu yaparken Flexbox kullandım.
-- Üst kısma mini istatistik kutuları ekledim. Bunları yan yana dizebilmek için CSS Grid yapısını kullandım.
-- Formun içinde inputların üzerine gelince hover ve tıklayınca focus renk değiştirmesini sağlayan ufak stiller ekledim.
-- @media sorguları ile mobile uyumlu hale getirdi
+## Yapılanlar
+- Felxbox kullanılarak sayfanın genel düzenini oturtuldu. Sol tarafa sabit bir menü (`sidebar`), sağ tarafa da ana içerik alanı eklendii
+- Üst kısma istatistik kutuları eklendi yan yana düzensis durmalarını engellemek için css grid yapısı kullanıldı.
+- Formun içinde inputların üzerine gelince hover ve tıklayınca focus renk değiştirmesini sağlayan ufak stiller eklendi.
+- @media sorguları ile mobile uyumlu hale getirildi.
