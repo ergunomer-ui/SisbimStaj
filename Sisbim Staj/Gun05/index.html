@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Maestro - Yönetim Paneli</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Sol Menü -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <h2>Mini Maestro</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active">Ana Sayfa</a></li>
+                <li><a href="#">Müşteriler</a></li>
+                <li><a href="#">Projeler</a></li>
+                <li><a href="#">Ayarlar</a></li>
+            </ul>
+        </aside>
+
+        <!--Üst Başlık ve İçerik -->
+        <div class="main-wrapper">
+            <!-- Header -->
+            <header class="top-header">
+                <h3>Müşteri Yönetimi</h3>
+            </header>
+
+            <!-- Ana İçerik Alanı -->
+            <main class="content-area">
+                
+                <!-- İstatistik Kartları -->
+                <div class="cards-grid">
+                    <div class="card">
+                        <h4>Toplam Müşteri</h4>
+                        <p class="card-number">12</p>
+                    </div>
+                    <div class="card">
+                        <h4>Aktif Projeler</h4>
+                        <p class="card-number">5</p>
+                    </div>
+                    <div class="card">
+                        <h4>Tamamlanan Görevler</h4>
+                        <p class="card-number">28</p>
+                    </div>
+                </div>
+
+                <!-- Form Bölümü -->
+                <section class="form-section">
+                    <h2>Yeni Müşteri Ekle</h2>
+                    <form class="customer-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firmaAdi">Firma Adı</label>
+                                <input type="text" id="firmaAdi" name="firmaAdi" required placeholder="Firma adını giriniz...">
+                            </div>
+                            <div class="form-group">
+                                <label for="yetkili">Yetkili Kişi</label>
+                                <input type="text" id="yetkili" name="yetkili" required placeholder="Ad Soyad...">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="eposta">E-posta</label>
+                                <input type="email" id="eposta" name="eposta" placeholder="ornek@firma.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="telefon">Telefon</label>
+                                <input type="tel" id="telefon" name="telefon" placeholder="05XX XXX XX XX">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="aciklama">Açıklama / Notlar</label>
+                            <textarea id="aciklama" name="aciklama" rows="3" placeholder="Proje detayları..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-submit">Müşteriyi Kaydet</button>
+                    </form>
+                    <!-- Müşterilerin Listeleneceği Alan -->
+                        <section class="form-section" style="margin-top: 30px;">
+                            <h2>Kayıtlı Müşteriler</h2>
+                            <ul id="musteriListesi" style="list-style: none; padding: 0;">
+                            </ul>
+                        </section>
+                </section>
+
+            </main>
+        </div>
+    </div>
+    <script>
+        const form = document.querySelector(".customer-form");
+        const firmaAdiInput = document.getElementById("firmaAdi");
+        const yetkiliInput = document.getElementById("yetkili");
+        const epostaInput = document.getElementById("eposta");
+        const telefonInput = document.getElementById("telefon");
+        const aciklamaInput = document.getElementById("aciklama");
+        const musteriListesiUl = document.getElementById("musteriListesi");
+        // Sayfa açıldığında kayıtlı müşterileri çekme
+        let musteriler = JSON.parse(localStorage.getItem("miniMaestroMusteriler")) || [];
+
+        // Listeyi ekranda gösteren fonksiyon
+        function listeyiGuncelle() {
+            musteriListesiUl.innerHTML = "";
+
+            if (musteriler.length === 0) {
+                musteriListesiUl.innerHTML = "<p style='color: #64748b; font-size: 0.9rem;'>Henüz kayıtlı müşteri bulunmuyor.</p>";
+                return;
+            }
+
+            musteriler.forEach((musteri, index) => {
+                const li = document.createElement("li");
+                li.style.cssText = "background: #f8fafc; padding: 15px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;";
+                
+                li.innerHTML = `
+                    <div>
+                        <strong>${musteri.firma}</strong> (${musteri.yetkili})<br>
+                        <small style="color: #64748b;">E-posta: ${musteri.eposta || "Belirtilmemiş"} | Tel: ${musteri.telefon || "Belirtilmemiş"}</small>
+                    </div>
+                    <button onclick="musteriSil(${index})" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">Sil</button>
+                `;
+                musteriListesiUl.appendChild(li);
+            });
+        }
+
+        // Sayfa ilk yüklendiğinde listenin çıktısını verir
+        listeyiGuncelle();
+
+        // form gönderildiğinde kayıt alan komut
+        form.addEventListener("submit", function(olay) {
+            olay.preventDefault(); // Sayfanın yenilenmesini engelle
+
+            const firma = firmaAdiInput.value.trim();
+            const yetkili = yetkiliInput.value.trim();
+
+            // Boş form bırakıldığında göndermeyi engelleyen komut
+            if (firma === "" || yetkili === "") {
+                alert("Lütfen Firma Adı ve Yetkili Kişi alanlarını boş bırakmayın!");
+                return;
+            }
+
+            // Yeni müşteri nesnesi
+            const yeniMusteri = {
+                firma: firma,
+                yetkili: yetkili,
+                eposta: epostaInput.value.trim(),
+                telefon: telefonInput.value.trim(),
+                aciklama: aciklamaInput.value.trim()
+            };
+
+            // Dizinin içine ekle
+            musteriler.push(yeniMusteri);
+
+            // Tarayıcı hafızasına kaydeder
+            localStorage.setItem("miniMaestroMusteriler", JSON.stringify(musteriler));
+
+            // listeyi günceller ve formu sıfırlayarak yeni giriş için kutuları temizler
+            listeyiGuncelle();
+            form.reset();
+        });
+
+        // Müşteri silme fonksiyonu
+        function musteriSil(index) {
+            musteriler.splice(index, 1); // Diziden ilgili elemanı çıkar
+            localStorage.setItem("miniMaestroMusteriler", JSON.stringify(musteriler)); // Hafızayı güncelle
+            listeyiGuncelle(); // Ekranı tazele
+        }
+    </script>
+</body>
+</html>
