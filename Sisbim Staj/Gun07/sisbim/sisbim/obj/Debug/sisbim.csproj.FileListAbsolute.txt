@@ -1,0 +1,7 @@
+C:\Users\ergun\source\repos\sisbim\sisbim\obj\Debug\sisbim.csproj.AssemblyReference.cache
+C:\Users\ergun\source\repos\sisbim\sisbim\obj\Debug\sisbim.csproj.CoreCompileInputs.cache
+C:\Users\ergun\source\repos\sisbim\sisbim\bin\Debug\sisbim.exe.config
+C:\Users\ergun\source\repos\sisbim\sisbim\bin\Debug\sisbim.exe
+C:\Users\ergun\source\repos\sisbim\sisbim\bin\Debug\sisbim.pdb
+C:\Users\ergun\source\repos\sisbim\sisbim\obj\Debug\sisbim.exe
+C:\Users\ergun\source\repos\sisbim\sisbim\obj\Debug\sisbim.pdb
